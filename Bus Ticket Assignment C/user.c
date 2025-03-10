@@ -1,5 +1,49 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
+
+//email validation
+bool validate_email(const char* email) //boolean datatype to check true or false  
+                                        //for validation
+                                        //const char* email to point that the email remains constant 
+{
+    int length=strlen(email); //declaring length here just to check email length
+    bool has_at = false; //declares false at first because we haven't found the at yet
+    bool has_dot_after_at = false; //same as before
+    int at_position = -1; //this can be int at_position; but put -1 for good practice;
+
+    if (length < 5) //setting minimum length for email
+    {
+        return false; //email cannot be less than 5 characters
+    }
+    for (int i; i<length; i++) //we will find the @ now
+    {
+        if (email[i]=='@') //if we have found the @ in the email
+        {
+            if(has_at) //but the email already has an @ it'll return false
+            {
+                return false;
+            }
+            has_at = true; //if not, then it will return true
+            at_position = i; //and set the position of the @ to at_position variable
+
+            if (i==0) //if the @ position is at the front it'll return false
+            {
+                return false;
+            }
+        }else if (email[i]=='.' && has_at) //if we have found the at, and there's a dot
+        {
+            has_dot_after_at = true; //this will be true 
+        }
+    }
+    if (!has_at || !has_dot_after_at)
+    {
+        return false;
+    }
+    return true;
+}
+
+
 
 //loginuser function
 void loginuser()
@@ -32,9 +76,18 @@ void registeruser()
         fullname[strlen(fullname) - 1] = '\0';
     }
 
-    printf("Enter email address: ");
-    scanf("%s", &email);
-
+    bool valid;
+    do {
+        printf("Enter email address: ");
+        scanf("%s", &email); 
+    
+        valid = validate_email(email); // Store result in a variable
+        if (!valid) {
+            printf("Invalid email format. Please enter a valid email address.\n");
+        }
+    } while (!valid); // Use stored result in the loop condition
+    
+    
     printf("Enter username: ");
     scanf("%s", &username);
 
@@ -59,7 +112,6 @@ void registeruser()
     fclose(pFile);
 
     printf("User registered successfully!\nWelcome to Danny Express.\n");
-
 }
 
 //main menu function
