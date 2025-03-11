@@ -3,9 +3,7 @@
 #include <stdbool.h>
 
 //email validation
-bool validate_email(const char* email) //boolean datatype to check true or false  
-                                        //for validation
-                                        //const char* email to point that the email remains constant 
+bool validate_email(const char* email) //boolean datatype to check true or false 
 {
     int length=strlen(email); //declaring length here just to check email length
     bool has_at = false; //declares false at first because we haven't found the at yet
@@ -16,7 +14,7 @@ bool validate_email(const char* email) //boolean datatype to check true or false
     {
         return false; //email cannot be less than 5 characters
     }
-    for (int i; i<length; i++) //we will find the @ now
+    for (int i = 0; i<length; i++) //we will find the @ now
     {
         if (email[i]=='@') //if we have found the @ in the email
         {
